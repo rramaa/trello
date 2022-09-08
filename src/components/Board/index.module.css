@@ -1,0 +1,7 @@
+.board {
+    padding: 8px 4px;
+    display: flex;
+    /*height: calc(100vh - 84px);*/
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}

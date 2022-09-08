@@ -1,0 +1,12 @@
+.label {
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: lightsalmon;
+    padding: 2px;
+    margin: 2px;
+}
+
+.label-wrapper {
+    display: flex;
+}

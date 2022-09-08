@@ -1,0 +1,28 @@
+.column {
+    padding: 8px;
+    background-color: lightgray;
+    box-shadow: 0 0 4px grey;
+    margin: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: fit-content;
+}
+
+.card-wrapper {
+    display: flex;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+    flex-direction: column;
+}
+
+.column-name {
+    padding: 4px;
+}
+
+.add-card {
+    cursor: pointer;
+    margin-top: 8px;
+}
+

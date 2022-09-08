@@ -1,0 +1,16 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 200px;
+    padding: 8px;
+    background-color: lightgoldenrodyellow;
+    margin: 4px;
+    flex: 0 0 80px;
+    box-shadow: 0 0 4px #4d4d29;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+}
