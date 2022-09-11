@@ -27,5 +27,5 @@ export function createCard(
     labels: labels || [],
   };
 
-  return card
+  return card;
 }
