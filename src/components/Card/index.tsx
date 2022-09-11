@@ -6,15 +6,19 @@ import {generateId} from "../../helpers/entityHelper";
 
 interface CardProps {
     id: string
+    columnId: string
 }
 
 interface AddCardProps {
     onAdd: (id: string, title: string) => void;
 }
 
-export default function Card({id}: CardProps) {
+export default function Card({id, columnId}: CardProps) {
     const {card, updateCard} = useCard(id)
-    return <div className={style.card}>
+    const onDragStart: React.DragEventHandler<HTMLDivElement> = function (event) {
+        event.dataTransfer.setData("text", JSON.stringify({cardId: id, columnId}))
+    }
+    return <div draggable onDragStart={onDragStart} className={style.card}>
         <EditableTitle title={card.title} onUpdateTitle={(title) => updateCard("title", title)} />
         <div className={style["card-footer"]}>
             {/*<div className={style["label-wrapper"]}><Label /></div>*/}
