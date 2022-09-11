@@ -1,3 +1,3 @@
 export default function DueDate() {
-    return <>20th Oct</>
+  return <>20th Oct</>;
 }
