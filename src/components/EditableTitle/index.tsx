@@ -1,19 +1,26 @@
 import style from "./index.module.css";
 import EditIcon from "../EditIcon/icons8-edit.svg";
-import React from "react";
+import React, {useEffect} from "react";
 
 interface EditableTitleProps {
     title: string;
-    onUpdateTitle: (title: string) => void
+    onUpdateTitle: (title: string) => void;
+    defaultEditing?: boolean
+    onCancel?: () => void
 }
 
-export default function EditableTitle({title, onUpdateTitle}: EditableTitleProps) {
-    let [editable, updateEditable] = React.useState(false)
+export default function EditableTitle({title, onUpdateTitle, defaultEditing = false, onCancel }: EditableTitleProps) {
+    let [editable, updateEditable] = React.useState(defaultEditing)
     let inputRef = React.useRef<HTMLInputElement>(null)
     let [updatedTitle, newTitle] = React.useState(title)
     function onTitleChange(e: any) {
         newTitle(e.target.value)
     }
+    useEffect(() => {
+        if(defaultEditing) {
+            inputRef.current?.focus()
+        }
+    }, [])
     function onEditClick() {
         updateEditable(true)
         setTimeout(() => {
@@ -27,6 +34,7 @@ export default function EditableTitle({title, onUpdateTitle}: EditableTitleProps
         } else if(e.key === "Escape") {
             updateEditable(false)
             newTitle(title)
+            onCancel && onCancel()
         }
     }
     return (
