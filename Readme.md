@@ -72,3 +72,4 @@ If given ample time, here are some of the enhancements that could be done.
 1. Design can definitely be improved. Ideally a design system can be used. That will ensure good browser compatibility and a modern look to the UI as well.
 2. A way to add new boards and also to select a different board. Due to the normalised data structure used, a card can be moved from 1 board to another without much hassle
 3. Support for labels, due date, and description can be added.. Need to hook up the data models and need to add support of design to add description and update labels/due date.
+4. Test cases would be ideal for maintenance of the project 
