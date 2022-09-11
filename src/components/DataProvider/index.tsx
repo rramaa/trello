@@ -14,12 +14,12 @@ export interface BoardData {
 
 export const defaultData = { BOARDS: [], COLUMNS: [], CARDS: [] };
 
-interface DataProvider
+interface IDataProvider
   extends React.FC<PropsWithChildren<{ data: BoardData }>> {}
 
 export const Context = React.createContext<BoardData>(defaultData);
 
-const DataProvider: DataProvider = ({ children, data }) => {
+const DataProvider: IDataProvider = ({ children, data }) => {
   if (data.BOARDS.length === 0) {
     console.log("Initializing Application");
     let board = createBoard(generateId(), { name: "Default Board" });
