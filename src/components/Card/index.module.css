@@ -11,6 +11,11 @@
     cursor: pointer;
 }
 
+.empty-card {
+    width: 200px;
+    height: 50px;
+}
+
 .card:hover {
     background-color: lightyellow;
 }

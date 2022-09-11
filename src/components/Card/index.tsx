@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import style from "./index.module.css";
 import { useCard } from "../../hooks/useCard";
 import EditableTitle from "../EditableTitle";
@@ -11,7 +11,14 @@ interface CardProps {
 
 interface AddCardProps {
   onAdd: (id: string, title: string) => void;
+  addingCard: boolean;
+  onAddingCardUpdate: (adding: boolean) => void;
 }
+
+export type DataTransferData = {
+  cardId: string;
+  columnId: string;
+};
 
 export default function Card({ id, columnId }: CardProps) {
   const { card, updateCard } = useCard(id);
@@ -35,16 +42,19 @@ export default function Card({ id, columnId }: CardProps) {
   );
 }
 
-export function NewCard({ onAdd }: AddCardProps) {
-  let [adding, onAddingUpdate] = useState(false);
+export function NewCard({
+  onAdd,
+  addingCard,
+  onAddingCardUpdate,
+}: AddCardProps) {
   function onCardAdd(title: string) {
     onAdd(generateId(), title);
-    onAddingUpdate(false);
+    onAddingCardUpdate(false);
   }
   function onCancel() {
-    onAddingUpdate(false);
+    onAddingCardUpdate(false);
   }
-  if (adding) {
+  if (addingCard) {
     return (
       <div className={style.card}>
         <EditableTitle
@@ -57,8 +67,15 @@ export function NewCard({ onAdd }: AddCardProps) {
     );
   }
   return (
-    <button onClick={() => onAddingUpdate(true)} className={style["add-card"]}>
+    <button
+      onClick={() => onAddingCardUpdate(true)}
+      className={style["add-card"]}
+    >
       +Add Card
     </button>
   );
+}
+
+export function EmptyCard() {
+  return <div className={style["empty-card"]} />;
 }

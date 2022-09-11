@@ -1,9 +1,10 @@
-import Card, { NewCard } from "../Card";
+import Card, { DataTransferData, EmptyCard, NewCard } from "../Card";
 import style from "./index.module.css";
 import { useColumn } from "../../hooks/useColumn";
 import EditableTitle from "../EditableTitle";
 import React, { useState } from "react";
 import { generateId } from "../../helpers/entityHelper";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 
 interface ColumnProps {
   id: string;
@@ -16,8 +17,17 @@ interface NewColumnProps {
 const dropZoneIdentifier = "----";
 
 export default function Column({ id }: ColumnProps) {
-  const { column, updateColumn, addCard } = useColumn(id);
+  const {
+    column,
+    updateColumn,
+    addCard,
+    rearrangeCards,
+    insertCard,
+    removeCard,
+  } = useColumn(id);
+  let [addingCard, onAddingCardUpdate] = useState(false);
   const cards = column.cards;
+  const { updateDragData, dragData } = useDragAndDrop();
   const cardWrapper = React.useRef<HTMLDivElement>(null);
   const cardHeight = React.useRef<number>(0);
   const [dropPosition, updateDropPosition] = React.useState<null | number>(
@@ -32,6 +42,32 @@ export default function Column({ id }: ColumnProps) {
       });
     });
   }
+
+  React.useEffect(() => {
+    if (dragData?.toColumn === id && dragData?.fromColumn === id) {
+      rearrangeCards(dragData.cardId, dragData.position);
+      console.log(
+        `Rearrange the card in ${column.name} to position ${dragData.position}`
+      );
+    } else if (dragData?.toColumn === id) {
+      insertCard(dragData.cardId, dragData.position);
+      console.log(
+        `Put the card into column ${column.name} at position ${dragData.position}`
+      );
+    } else if (dragData?.fromColumn === id) {
+      removeCard(dragData.cardId);
+      console.log(`Remove the card from column ${column.name}`);
+    }
+    updateDragData(null);
+  }, [
+    dragData,
+    column,
+    id,
+    insertCard,
+    rearrangeCards,
+    removeCard,
+    updateDragData,
+  ]);
 
   React.useEffect(() => {
     if (cards.length) {
@@ -58,10 +94,19 @@ export default function Column({ id }: ColumnProps) {
     updateDropPosition(position - 1);
   };
   const onDragDrop: React.DragEventHandler<HTMLDivElement> = function (event) {
-    const dragData = JSON.parse(event.dataTransfer.getData("text"));
-    console.log(dragData, dropPosition);
+    const dragData = JSON.parse(
+      event.dataTransfer.getData("text")
+    ) as DataTransferData;
+    updateDragData({
+      fromColumn: dragData.columnId,
+      toColumn: id,
+      cardId: dragData.cardId,
+      position: dropPosition ?? 0,
+    });
+    updateDropPosition(null);
   };
   let modifiedCardsList = [...cards];
+  const shouldRenderEmpty = modifiedCardsList.length === 0 && !addingCard;
   if (dropPosition !== null) {
     modifiedCardsList.splice(dropPosition, 0, dropZoneIdentifier);
   }
@@ -78,14 +123,19 @@ export default function Column({ id }: ColumnProps) {
         ref={cardWrapper}
         className={style["card-wrapper"]}
       >
+        {shouldRenderEmpty && <EmptyCard />}
         {modifiedCardsList.map((cardId) => {
           if (cardId === dropZoneIdentifier) {
-            return <hr />;
+            return <hr key={cardId} />;
           }
           return <Card key={cardId} id={cardId} columnId={id} />;
         })}
       </div>
-      <NewCard onAdd={onAddCard} />
+      <NewCard
+        onAdd={onAddCard}
+        addingCard={addingCard}
+        onAddingCardUpdate={onAddingCardUpdate}
+      />
     </div>
   );
 }

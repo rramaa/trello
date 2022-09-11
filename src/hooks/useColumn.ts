@@ -27,13 +27,33 @@ export function useColumn(id: string) {
       [key]: value,
     });
   }
+
+  function addCard(id: string, title: string) {
+    let card = createCard(id, { title });
+    data.CARDS.push(card);
+    updateColumn("cards", [..._column.cards, card.id]);
+  }
+
+  function rearrangeCards(id: string, newPosition: number) {
+    let cards = [...column.cards.filter((v) => v !== id)];
+    cards.splice(newPosition, 0, id);
+    updateColumn("cards", cards);
+  }
+  function insertCard(id: string, position: number) {
+    let cards = [...column.cards];
+    cards.splice(position, 0, id);
+    updateColumn("cards", cards);
+  }
+  function removeCard(id: string) {
+    let cards = [...column.cards.filter((v) => v !== id)];
+    updateColumn("cards", cards);
+  }
   return {
     column,
     updateColumn,
-    addCard(id: string, title: string) {
-      let card = createCard(id, { title });
-      data.CARDS.push(card);
-      updateColumn("cards", [..._column.cards, card.id]);
-    },
+    addCard,
+    rearrangeCards,
+    insertCard,
+    removeCard,
   };
 }
