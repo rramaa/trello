@@ -40,7 +40,7 @@ export default function EditableTitle({title, onUpdateTitle, defaultEditing = fa
     return (
         <div className={style.title}>
             {editable && <input ref={inputRef} className={style["title-input"]} value={updatedTitle} onKeyDown={onKeyDown} onChange={onTitleChange} />}
-            {!editable && <div>{title}</div>}
+            {!editable && <div className={style["display-title"]}>{title}</div>}
             {!editable && <img className={style["edit-icon"]} onClick={onEditClick} src={EditIcon} alt={"Edit Icon"}/>}
         </div>
     )

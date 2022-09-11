@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.display-title {
+    font-weight: bold;
+}
+
 .title-input {
     width: 100%;
 }
