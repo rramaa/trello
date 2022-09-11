@@ -1,13 +1,19 @@
+import React from "react"
 import style from "./index.module.css"
-import Label from "../Label";
-import DueDate from "../DueDate";
+import {useCard} from "../../hooks/useCard";
+import EditableTitle from "../EditableTitle";
 
-export default function Card() {
+interface CardProps {
+    id: string
+}
+
+export default function Card({id}: CardProps) {
+    const {card, updateCard} = useCard(id)
     return <div className={style.card}>
-        <div className={style.title}>Title here</div>
+        <EditableTitle title={card.title} onUpdateTitle={(title) => updateCard("title", title)} />
         <div className={style["card-footer"]}>
-            <div className={style["label-wrapper"]}><Label /></div>
-            <div className={style["due-date"]}><DueDate /></div>
+            {/*<div className={style["label-wrapper"]}><Label /></div>*/}
+            {/*<div className={style["due-date"]}><DueDate /></div>*/}
         </div>
     </div>
 }

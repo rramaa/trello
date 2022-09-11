@@ -1,22 +1,16 @@
-export function createColumn(id: string, name: string, cards: string[]) {
-  let column = {
+
+export type Column = {
+  id: string,
+  name: string,
+  cards: string[]
+}
+
+export type updatableKeys = keyof Omit<Column, "id">;
+
+export function createColumn(id: string, {name, cards}: {name: string, cards: string[]}) {
+  return {
     id,
     name,
     cards: cards || [],
-  };
-
-  return {
-    getColumn() {
-      return column;
-    },
-    updateName(name: string) {
-      column = { ...column, name };
-    },
-    addCards(cards: string[]) {
-      column.cards = [...column.cards, ...cards];
-    },
-    removeCard(cardId: string) {
-      column.cards = column.cards.filter((v) => v !== cardId);
-    },
-  };
+  }
 }

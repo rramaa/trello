@@ -3,11 +3,14 @@ export function storeData(key: string, data: object) {
   return true;
 }
 
-export function readData<T>(key: string, defaultData: T) {
+export function readData<T>(key: string, defaultData: T): T {
   try {
-    return JSON.parse(key) || defaultData;
+    return (
+      JSON.parse(window.localStorage.getItem(key) || "null") || defaultData
+    );
   } catch (e) {
     console.error(`Error reading ${key} from localStorage`);
+    console.error(e);
     return defaultData;
   }
 }

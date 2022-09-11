@@ -1,0 +1,13 @@
+.title {
+    display: flex;
+}
+
+.title-input {
+    width: 100%;
+}
+
+.edit-icon {
+    width: 16px;
+    margin-left: 4px;
+    cursor: pointer;
+}

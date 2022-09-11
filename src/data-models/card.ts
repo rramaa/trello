@@ -1,13 +1,25 @@
+export type Card = {
+  id: string;
+  title: string;
+  description?: string;
+  labels?: string[];
+  dueDate?: Date;
+};
+
+export type CardHelper = ReturnType<typeof createCard>;
+
+export type updatableKeys = keyof Omit<Card, "id">;
+
 export function createCard(
   id: string,
-  title: string,
   {
+    title,
     description,
     dueDate,
     labels,
-  }: { description: string | null; dueDate: Date | null; labels: string[] }
+  }: { title: string; description?: string; dueDate?: Date; labels?: string[] }
 ) {
-  let card = {
+  let card: Card = {
     id,
     title,
     description,
@@ -15,28 +27,5 @@ export function createCard(
     labels: labels || [],
   };
 
-  return {
-    getCard() {
-      return {
-        id,
-        title,
-        description,
-        dueDate,
-        labels: labels || [],
-      };
-    },
-    // setter functions
-    updateTitle(title: string) {
-      card = { ...card, title };
-    },
-    updateDescription(description: string | null) {
-      card = { ...card, description };
-    },
-    updateDueDate(dueDate: Date | null) {
-      card = { ...card, dueDate };
-    },
-    updateLabels(labels: string[]) {
-      card = { ...card, labels };
-    },
-  };
+  return card
 }

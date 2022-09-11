@@ -8,6 +8,11 @@
     margin: 4px;
     flex: 0 0 80px;
     box-shadow: 0 0 4px #4d4d29;
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: lightyellow;
 }
 
 .card-footer {
