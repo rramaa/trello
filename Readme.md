@@ -2,6 +2,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Requirements
+1. Node: `v14.17.0`
+2. Yarn: `v1.22.10`
+3. Best viewed in Chromium based browsers
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -29,18 +34,41 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Project Flow
+### File Structure
+```
+src/
+    components/
+        /* All components used in the development */
+    constants/
+        All constants
+    data-models/
+        All Data models
+    helpers/
+        Helper Functions
+    hooks/
+        Hooks definition
+```
+### Data Models
+The data models are used for managing the state and provide some structure to the data types. Directly hooking up the base data to the components' state and updating the complete data would trigger multiple rerenders of the components even when nothing has changed. By ensuring only one place from where to update the data, keeping the storage and state in sync will be easy and bug free. Ideally, there would be an api call to sync data with the BE.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The data model is stored in a normalised fashion. Only the ids are referenced in different entities. It helps in moving the entity references from one entity to another, and also keeps updating the entities simple 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Drag and Drop
+1. When the drag starts, some data is inserted into the event
+2. When the drag over event starts, the position of the card is calculated and the eventual position is shown visually to the user
+3. When the drag event leaves, everything is restored to original
+4. When the drop event occurs, data has already been calculated. That data is now synced to the Drag context.
+5. After data has been pushed to the Drag context, the columns are notified that a drag/drop event has occurred, and they are expected to update their respective states.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### App Instantiation
+When the app is opened for the first time, it is checked whether correct data is present or not. If it's not present, then app is instantiated and some default data is populated
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Title Edit
+There is common component called `EditableTitle`. This component manages the title, and allows edit. The enter key and escape are supported. After changing the title, press `Enter` to save the new title or press `Escape` to reset.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Enhancements Planned
+If given ample time, here are some of the enhancements that could be done.
+1. Design can definitely be improved. Ideally a design system can be used. That will ensure good browser compatibility and a modern look to the UI as well.
+2. A way to add new boards and also to select a different board. Due to the normalised data structure used, a card can be moved from 1 board to another without much hassle
+3. Support for labels, due date, and description can be added.. Need to hook up the data models and need to add support of design to add description and update labels/due date.
